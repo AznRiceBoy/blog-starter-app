@@ -1,14 +1,13 @@
-export default function Nav({ titles, setArticleId }) {
+export default function Nav({ articles, setArticle }) {
   return (
     <nav>
-      <ul>
-        {titles &&
-          titles.map((a) => (
-            <li key={a.id} onClick={() => setArticleId(a.id)}>
+      {!articles
+        ? "No articles"
+        : articles.map((a) => (
+            <p key={a.id} onClick={() => setArticle(a)}>
               {a.title}
-            </li>
+            </p>
           ))}
-      </ul>
     </nav>
   );
 }
