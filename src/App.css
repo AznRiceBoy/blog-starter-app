@@ -1,14 +1,30 @@
 .App {
   display: grid;
-  grid-template-rows: min-content auto;
+  grid-template-rows: min-content auto 90px;
   grid-template-columns: 250px auto;
   height: 100vh;
+  background-image: linear-gradient(
+    90deg,
+    rgb(0, 221, 255),
+    rgb(129, 235, 184)
+  );
   overflow: scroll;
 }
 
 header {
+  font-family: sans-serif;
   display: flex;
   justify-content: space-between;
+  background-color: black;
+  color: white;
+  grid-column: 1 / span 2;
+  padding: 10px 5px;
+}
+
+footer {
+  font-family: sans-serif;
+  justify-content: center;
+  display: flex;
   background-color: black;
   color: white;
   grid-column: 1 / span 2;
@@ -35,7 +51,7 @@ article {
 }
 
 nav {
-  background-color: #dee9ff;
+  background-color: #93969d;
 }
 
 nav p:hover {
