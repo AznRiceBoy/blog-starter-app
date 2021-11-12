@@ -3,7 +3,11 @@ import Nav from "./Nav";
 import Article from "./Article";
 import ArticleEntry from "./ArticleEntry";
 import { SignIn, SignOut, useAuthentication } from "./services/authService";
-import { fetchArticles, createArticle } from "./services/articleService";
+import {
+  fetchArticles,
+  createArticle,
+  deleteArticle,
+} from "./services/articleService";
 import "./App.css";
 import Footer from "./footer";
 //serparation on concern, (dont add the concept of firebase into app code so that one can switch out databases)
@@ -35,22 +39,22 @@ export default function App() {
       setWriting(false);
     });
   }
-  // {user &&
-  //   (user.id !== "3vS0KMyiEvN3QLlzjSzqJZbAKbG2" ||
-  //     "msgWiQEBg8NKnjczMzfzhdHOvuu1") ? (
-  //     <p className="error">"Only verified authors can write blogs :)"</p>
-  //   ) : (
-  //     user &&
-  //     (user.id === "3vS0KMyiEvN3QLlzjSzqJZbAKbG2" ||
-  //       "msgWiQEBg8NKnjczMzfzhdHOvuu1") && (
-  //       <button onClick={() => setWriting(true)}>New Article</button>
-  //     )
-  //   )}
-  //(user.id === "3vS0KMyiEvN3QLlzjSzqJZbAKbG2" || "msgWiQEBg8NKnjczMzfzhdHOvuu1") ? ( <button onClick={() => setWriting(true)}>New Article</button>) : ( <p className="error">  "Only verified authors can write blogs, try logging into a valid account." </p> )
+
+  function removeArticle(id) {
+    deleteArticle(id).then(() => {
+      setArticle(null);
+      setArticles(articles.filter((a) => a.id !== id));
+      setWriting(false);
+    });
+  }
+  // function nextArticles() {
+  //   fetchArticles().then(setArticles);
+  // }
+
   return (
     <div className="App">
       <header>
-        Blog
+        Ryan's and Charles's Blog
         {user ? (
           user.uid === "3vS0KMyiEvN3QLlzjSzqJZbAKbG2" ||
           user.uid === "msgWiQEBg8NKnjczMzfzhdHOvuu1" ? (
@@ -67,14 +71,21 @@ export default function App() {
         {!user ? <SignIn /> : <SignOut />}
       </header>
 
-      {!user ? "" : <Nav articles={articles} setArticle={setArticle} />}
+      {!user ? (
+        <p className="prompt">
+          Welcome to the blog! Currently, only Ryan and Charles are allowed to
+          write articles; however, everyone can view the articles! :)
+        </p>
+      ) : (
+        <Nav articles={articles} setArticle={setArticle} />
+      )}
 
       {!user ? (
         <div></div>
       ) : writing ? (
         <ArticleEntry addArticle={addArticle} />
       ) : (
-        <Article article={article} />
+        <Article article={article} remover={removeArticle} />
       )}
       <Footer
         authors="Ryan Nguyen and Charles Kawata"

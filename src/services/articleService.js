@@ -8,6 +8,8 @@ import {
   query,
   getDocs,
   addDoc,
+  doc,
+  deleteDoc,
   orderBy,
   limit,
   Timestamp,
@@ -19,8 +21,10 @@ export async function createArticle({ title, body }) {
   return { id: docRef.id, ...data };
 }
 
-// NOT FINISHED: This only gets the first 20 articles. In a real app,
-// you implement pagination.
+export async function deleteArticle(id) {
+  await deleteDoc(doc(db, "articles", id));
+}
+
 export async function fetchArticles() {
   const snapshot = await getDocs(
     query(collection(db, "articles"), orderBy("date", "desc"), limit(20))
