@@ -9,7 +9,7 @@ import {
   deleteArticle,
 } from "./services/articleService";
 import "./App.css";
-import Footer from "./footer";
+import Footer from "./Footer";
 //serparation on concern, (dont add the concept of firebase into app code so that one can switch out databases)
 //if you get an error, show the error
 //hide the api key
